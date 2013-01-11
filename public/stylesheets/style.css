@@ -1,0 +1,17 @@
+.masthead {
+  padding-top: 75px;
+  padding-bottom: 100px;
+  text-align: center;
+}
+.masthead h1 {
+  font-size: 180px;
+  color: #fff;
+  margin-bottom: 100px;
+}
+.masthead p {
+  font-size: 40px;
+  color: #fff;
+}
+.jumbotron {
+  background-color: #282828;
+}

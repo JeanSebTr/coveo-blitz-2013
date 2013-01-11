@@ -1,0 +1,27 @@
+{
+    "name": "coveo-blitz-2013",
+    "version": "0.0.1",
+    "private": false,
+    "scripts": {
+        "start": "foreman start",
+        "test": "make test"
+    },
+    "main": "main.js",
+    "dependencies": {
+        "express": "3.0.x",
+        "jade": "0.28.x",
+        "stylus": "0.32.x",
+        "express-html-snapshots": "0.0.x",
+        "async": "0.1.x",
+        "openifyit-commons": "0.0.x"
+    },
+    "devDependencies": {
+        "nodemon": "0.6.x",
+        "mocha": "1.6.x",
+        "expect.js": "0.1.x"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    }
+}
