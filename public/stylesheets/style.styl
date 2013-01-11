@@ -1,6 +1,33 @@
+primary-color= white
+secondary-color= rgb(40,40,40)
+footer-height=50px
+
+html, body
+    height: 100%
+    padding: 0
+
+.navbar
+    padding: 0px 20px
+
+.wrap
+    min-height: 100%
+    height: auto !important
+    height: 100%
+    margin: 0 auto (-1 * footer-height)
+
+    .push
+        height: footer-height
+footer
+    background-color: secondary-color
+    height: footer-height
+    text-align: center
+    span
+        color: primary-color
+    a:hover
+        text-decoration: none
 
 .jumbotron
-    background-color: rgb(40,40,40)
+    background-color: secondary-color
     margin-bottom: 50px
     .masthead
         padding-top: 75px
@@ -8,12 +35,12 @@
         text-align: center
         h1
             font-size: 13em
-            color: white
+            color: primary-color
             margin-bottom: 50px
             line-height: 100%
         p
             font-size: 2.5em
-            color: white
+            color: primary-color
             line-height: 100%
 
 .form-search

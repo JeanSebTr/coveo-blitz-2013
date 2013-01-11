@@ -1,4 +1,4 @@
-doctype 5
+doctype
 html(ng-app='coveo')
     head
         meta(charset='utf-8')
@@ -17,24 +17,35 @@ html(ng-app='coveo')
         script(src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
         script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js')
     body
-        header
-            .jumbotron.hidden-phone
-                .masthead
-                    .container
-                        .row
-                            h1 {Coveo Blitz}
-                            p NodeJS + Bootstrap + AngularJS + winners from last year
+        a(href='https://github.com/jackdbernier/coveo-blitz-2013')
+            img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png', alt='Fork me on GitHub')
+        .wrap
+            header
+                .jumbotron.hidden-phone
+                    .masthead
+                        .container
+                            .row
+                                h1 {Coveo Blitz}
+                                p NodeJS + Bootstrap + AngularJS + winners from last year
 
-            .navbar.navbar-inverse.navbar-fixed-top.visible-phone
-                .navbar-inner
-                    .container
-                        a.brand(href='/') {Coveo Blitz}
+                .navbar.navbar-inverse.navbar-fixed-top.visible-phone
+                    .navbar-inner
+                        .container
+                            a.brand(href='/') {Coveo Blitz}
 
 
-        div(ng-view)
+            div(ng-view)
+            .push
 
         footer
-            p hehe
+            .container
+                ul.inline
+                    li.hidden-phone: span Created by
+                    li: a(href='https://twitter.com/alain_gilbert') @alain_gilbert
+                    li: a(href='https://twitter.com/jackdbernier') @jackdbernier
+                    li: a(href='https://twitter.com/JeanSebTr') @JeanSebTr
+                    li.hidden-phone: span during a 8 hours competition
+                    li.hidden-phone: a(href='http://events.coveo.com/blitz') Coveo Blitz
 
         script(src='javascripts/app.js')
         script(src='javascripts/controllers/search.js')
