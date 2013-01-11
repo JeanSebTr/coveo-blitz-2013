@@ -15,7 +15,8 @@ describe('test search api interactor', function(){
         Search.index('coveo-blitz-2013', function(err, results){
             expect(err).not.to.be.ok();
             expect(results).to.be.ok();
-            expect(results).to.have.property('hello', 'world');
+            expect(results).to.be.an(Array);
+            expect(results[0]).to.have.property('hello', 'world');
             done();
         });
     });
