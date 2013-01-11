@@ -1,4 +1,3 @@
-
 PORT = 54321
 REPORTER = list
 
@@ -12,4 +11,9 @@ test:
 		--bail \
 		tests/*.test.js
 
-.PHONY: test
+
+nodemon:
+	foreman start -f Procfile.dev
+
+
+.PHONY: test nodemon
