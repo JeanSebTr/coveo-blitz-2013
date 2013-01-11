@@ -1,0 +1,12 @@
+.container
+    .row
+        form.form-search(ng-submit='search()')
+            .input-append
+                input.span8.search-query(type='text', ng-model='query', ng-change='search()', placeholder='Search in our amazing collection of ...')
+                span.add-on.btn(ng-click='search()')
+                    i.icon-search
+
+    table.table.table-striped
+        tr(ng-repeat='result in results')
+            td {{result.hello}}
+            td {{result.query}}

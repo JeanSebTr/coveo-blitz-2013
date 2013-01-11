@@ -1,10 +1,14 @@
 
 module.exports.index = function(query, callback){
-    var results = [];
-    var result = {
-        hello: "world",
-        query: query
-    };
-    results.push(result)
+    var results = [
+        {
+            hello: "world",
+            query: query
+        },
+        {
+            hello: "jack",
+            query: query + ' hehe'
+        }
+    ];
     callback(null, results);
 };
