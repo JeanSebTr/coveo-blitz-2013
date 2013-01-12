@@ -1,8 +1,11 @@
 
 var http = require('http');
+
 var async = require('async');
-var nodeio = require('node.io');
+var request = require('request');
+
 var Indexer = require('./indexer').Indexer;
+
 
 
 var _input = function(self, url, page, callback){
@@ -25,6 +28,65 @@ var _input = function(self, url, page, callback){
     });
 };
 
+function createJob(type) {
+    var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/' + type;
+    return function(cb) {
+        console.log('GET', url);
+        request(url + '?page=0&size=100', function(err, response, body) {
+            if(err) {
+                cb(err);
+            }
+            else {
+                var data;
+                try {
+                    data = JSON.parse(body);
+                    var tasks = [];
+                    for(var i=0; i<data.content.length; i++) {
+                        tasks.push(fetchItem.bind(null, type, data.content[i].id));
+                    }
+                    if(!data.lastPage) {
+                        tasks.push(fetchPages.bind(null, type, 1, data.totalPages));
+                    }
+                    async.parallel(tasks, cb);
+                }
+                catch(e) {
+                    cb(e);
+                }
+            }
+        });
+    };
+}
+
+function fetchPages(type, from, to, cb) {
+    for(var i=from; i<to; i++) {
+        var url = process.env.DATA_WEB_SERVICE+'/BlitzDataWebService/'+type+'?size=100&page='+i;
+        console.log('GET', url);
+        request(url, function(err, response, body) {
+            var data;
+            try {
+                data = JSON.parse(body);
+                var tasks = [];
+                for(var j=0; j<data.content.length; j++) {
+                    tasks.push(fetchItem.bind(null, type, data.content[j].id));
+                }
+                async.parallel(tasks, cb);
+            }
+            catch(e) {
+                cb(e);
+            }
+        });
+    }
+}
+
+function fetchItem(type, id, cb) {
+    var url = process.env.DATA_WEB_SERVICE+'/BlitzDataWebService/'+type+'/'+id;
+    console.log('GET', url);
+    request(url, function(err, response, body) {
+        cb(err);
+    });
+}
+
+
 var Crawler = function(){
     var _this = this;
     _this.start = function(callback){
@@ -32,13 +94,12 @@ var Crawler = function(){
             '/BlitzDataWebService/evaluationRun/start?runId=' +
             process.env.RUN_ID, function(res) {
             async.parallel([
-                nodeio.start.bind(nodeio, _this.job, {max: 100, path: '/BlitzDataWebService/artists'}),
-                nodeio.start.bind(nodeio, _this.job, {max: 100, path: '/BlitzDataWebService/albums'})
+                createJob('artists'),
+                createJob('albums')
             ],
             function(){
                 http.get(process.env.DATA_WEB_SERVICE +
                     '/BlitzDataWebService/evaluationRun/stop', function(res) {
-                        console.log('OMG!!!', _this.counter);
                     callback(null);
                 }).on('error', function(e) {
                     callback(e);
@@ -49,7 +110,7 @@ var Crawler = function(){
         });
     };
 
-    _this.job = new nodeio.Job({
+    /*_this.job = new nodeio.Job({
         input: function (start, num, callback) {
             var url = process.env.DATA_WEB_SERVICE + this.options.path;
             _input(this, url, 0, callback);
@@ -73,7 +134,7 @@ var Crawler = function(){
         output: function(artists){
             this.exit();
         }
-    });
+    });*/
 };
 
 module.exports = Crawler;
