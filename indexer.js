@@ -1,5 +1,5 @@
 var indexer = function(doc) {
-
+    console.log(doc);
 };
 
 

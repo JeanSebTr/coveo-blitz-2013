@@ -2,22 +2,23 @@
 var nodeio = require('node.io');
 var Indexer = require('./indexer').Indexer;
 
-exports.jobArtists = new nodeio.Job({
+module.exports.jobArtists = new nodeio.Job({
     input: function (start, num, callback) {
         var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists';
         this.get(url, function(err, data){
             data = JSON.parse(data);
-            if(!(data instanceof Array)){
-                data = [data];
-            }
-            callback(data);
+            callback(data.content);
         });
     },
-    run: function (row) {
-        Indexer(row);
-        this.emit(row);
+    run: function (content) {
+        var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists/' + content.id;
+        this.get(url, function(err, data){
+            data = JSON.parse(data);
+            Indexer(data);
+            this.emit(data);
+        });
     },
-    output: function(rows){
+    output: function(artists){
         this.exit();
     }
 });
