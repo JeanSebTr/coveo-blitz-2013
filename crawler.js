@@ -56,7 +56,6 @@ var Crawler = function(){
         },
         run: function (content) {//console.log(content);
             _this.counter++;
-            console.log('GET', url);
             var url = process.env.DATA_WEB_SERVICE + this.options.path + '/' + content.id;
             console.log('Fetch:', url);
             this.get(url, function(err, data){
