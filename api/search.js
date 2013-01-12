@@ -24,7 +24,7 @@ exports.index = function(query, facets, callback) {
         }
         search.facets[k] = fList;
     }
-    console.log(index.text[qList[0]], qList[0]);
+    //console.log(index.text[qList[0]], qList[0]);
     callback(null, {
         facets: {
             //
