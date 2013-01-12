@@ -23,15 +23,6 @@ var indexer = function(doc) {
 };
 
 
-var fs = require('fs');
-var tmp = 'artist';
-fs.readFile(tmp + '.txt', function (err, data) {
-    data = JSON.parse(data);
-    data.type = tmp;
-    indexer(data);
-});
-
-
 
 
 module.exports.Indexer = indexer;

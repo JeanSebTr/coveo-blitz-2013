@@ -1,5 +1,6 @@
+var indexer = require('../indexer');
 
-exports.index = function(query, facets, callback){
+exports.index = function(query, facets, callback) {
     var qList = query.trim().split(' ');
     var search = {
         type: 'AND',
@@ -23,6 +24,7 @@ exports.index = function(query, facets, callback){
         }
         search.facets[k] = fList;
     }
+    console.log(index.text[qList[0]], qList[0]);
     callback(null, {
         facets: {
             //
@@ -32,3 +34,14 @@ exports.index = function(query, facets, callback){
         ]
     });
 };
+
+
+
+var fs = require('fs');
+var tmp = 'artist';
+fs.readFile(tmp + '.txt', function (err, data) {
+    data = JSON.parse(data);
+    data.type = tmp;
+    indexer.Indexer(data);
+    exports.index('music', {}, function() {});
+});

@@ -2,7 +2,6 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var expressHTMLSnapshots = require('express-html-snapshots');
 
 var Crawler = require('./crawler.js');
 
@@ -21,7 +20,6 @@ module.exports = function(){
             _this.app.use(express.logger('dev'));
             _this.app.use(express.bodyParser());
             _this.app.use(express.methodOverride());
-            _this.app.use(expressHTMLSnapshots.googlebotMiddleware);
             _this.app.use(_this.app.router);
             _this.app.use(require('stylus').middleware(__dirname + '/public'));
             _this.app.use(express.static(path.join(__dirname, 'public')));
