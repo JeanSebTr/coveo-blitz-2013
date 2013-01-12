@@ -47,7 +47,7 @@ var indexAlbum = function(doc) {
     indexText(doc);
     indexTrackNames(doc);
 
-    if (!doc.name) {
+    if (doc.name) {
         for (var i = 0; i < doc.name.length; i++) {
             var name = doc.name[i];
             if (!index.albums[name]) {
