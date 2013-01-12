@@ -6,6 +6,7 @@ var Indexer = require('./indexer').Indexer;
 
 
 var _input = function(self, url, page, callback){
+    console.log('GET', url);
     self.get(url + '?page=' + page, function(err, data){
         try{
             data = JSON.parse(data);
@@ -58,6 +59,7 @@ var Crawler = function(){
         run: function (content) {
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists/' + content.id;
+            console.log('GET', url);
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
@@ -83,6 +85,7 @@ var Crawler = function(){
         run: function (content) {
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums/' + content.id;
+            console.log('GET', url);
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
