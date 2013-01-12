@@ -25,3 +25,6 @@ var test = "This is, if I'm not mistaken, a half-good example of what a less na√
 
 
 tokenizer(test);
+
+
+module.exports.Indexer = indexer;
