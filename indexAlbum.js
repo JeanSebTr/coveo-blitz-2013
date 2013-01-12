@@ -47,12 +47,14 @@ var indexAlbum = function(doc) {
     indexText(doc);
     indexTrackNames(doc);
 
-    for (var i = 0; i < doc.name.length; i++) {
-        var name = doc.name[i];
-        if (!index.albums[name]) {
-            index.albums[name] = {};
+    if (!doc.name) {
+        for (var i = 0; i < doc.name.length; i++) {
+            var name = doc.name[i];
+            if (!index.albums[name]) {
+                index.albums[name] = {};
+            }
+            index.albums[name].artists = doc.artists;
         }
-        index.albums[name].artists = doc.artists;
     }
     if (doc.release_date) {
         index.albums[name].releaseDate = doc.release_date[0];
