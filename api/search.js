@@ -28,8 +28,9 @@ exports.index = function(query, facets, callback) {
     var allIds = [];
     for (var i = 0; i < qList.length; i++) {
         var ids = index.text[qList[i]];
+        if (!ids) { continue; }
         for (var j = 0; j < ids.length; j++) {
-            allIds.push({id:ids[j]});
+            allIds.push({id: ids[j].slice(1)});
         }
     }
     console.log(allIds, query);
