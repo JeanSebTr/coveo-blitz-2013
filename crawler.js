@@ -1,5 +1,6 @@
 
 var nodeio = require('node.io');
+var Indexer = require('./indexer').Indexer;
 
 exports.jobArtists = new nodeio.Job({
     input: function (start, num, callback) {
@@ -13,6 +14,7 @@ exports.jobArtists = new nodeio.Job({
         });
     },
     run: function (row) {
+        Indexer(row);
         this.emit(row);
     },
     output: function(rows){
