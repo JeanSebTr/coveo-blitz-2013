@@ -46,8 +46,6 @@ var indexText = function(doc) {
         if (!index.text[token]) {
             index.text[token] = [];
         }
-        console.log('caliss');
-        if (index.text[token].indexOf('b' + doc.id) !== -1) { console.log(index.text[token]); return; }
         index.text[token].push('b' + doc.id);
     }
 };
@@ -60,7 +58,6 @@ var indexLabels = function(doc) {
         if (!index.labels[label]) {
             index.labels[label] = [];
         }
-        if (index.labels[label].indexOf('b' + doc.id) !== -1) { return; }
         index.labels[label].push('b' + doc.id);
     }
 };
@@ -73,7 +70,6 @@ var indexGroupNames = function(doc) {
         if (!index.groupNames[group]) {
             index.groupNames[group] = [];
         }
-        if (index.groupNames[group].indexOf('b' + doc.id) !== -1) { return; }
         index.groupNames[group].push('b' + doc.id);
     }
 };
