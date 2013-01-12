@@ -27,6 +27,9 @@ var Crawler = function(){
     var _this = this;
     _this.start = function(callback){
         _this.counter = 0;
+        console.log(process.env.DATA_WEB_SERVICE +
+            '/BlitzDataWebService/evaluationRun/start?runId=' +
+            process.env.RUN_ID);
         http.get(process.env.DATA_WEB_SERVICE +
             '/BlitzDataWebService/evaluationRun/start?runId=' +
             process.env.RUN_ID, function(res) {
