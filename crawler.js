@@ -28,16 +28,12 @@ var _input = function(self, url, page, callback){
 var Crawler = function(){
     var _this = this;
     _this.start = function(callback){
-        _this.counter = 0;
-        console.log(process.env.DATA_WEB_SERVICE +
-            '/BlitzDataWebService/evaluationRun/start?runId=' +
-            process.env.RUN_ID);
         http.get(process.env.DATA_WEB_SERVICE +
             '/BlitzDataWebService/evaluationRun/start?runId=' +
             process.env.RUN_ID, function(res) {
             async.parallel([
-                nodeio.start.bind(nodeio, _this.jobArtists, {max:100}),
-                nodeio.start.bind(nodeio, _this.jobAlbums, {max:100})
+                nodeio.start.bind(nodeio, _this.job, {max: 100, path: '/BlitzDataWebService/artists'}),
+                nodeio.start.bind(nodeio, _this.job, {max: 100, path: '/BlitzDataWebService/albums'})
             ],
             function(){
                 http.get(process.env.DATA_WEB_SERVICE +
@@ -53,15 +49,16 @@ var Crawler = function(){
         });
     };
 
-    _this.jobArtists = new nodeio.Job({
+    _this.job = new nodeio.Job({
         input: function (start, num, callback) {
-            var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists';
+            var url = process.env.DATA_WEB_SERVICE + this.options.path;
             _input(this, url, 0, callback);
         },
         run: function (content) {//console.log(content);
             _this.counter++;
-            var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists/' + content.id;
-            //console.log('GET', url);
+            console.log('GET', url);
+            var url = process.env.DATA_WEB_SERVICE + this.options.path + '/' + content.id;
+            console.log('Fetch:', url);
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
@@ -75,32 +72,6 @@ var Crawler = function(){
             });
         },
         output: function(artists){
-            this.exit();
-        }
-    });
-
-    _this.jobAlbums = new nodeio.Job({
-        input: function (start, num, callback) {
-            var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums';
-            _input(this, url, 0, callback);
-        },
-        run: function (content) {//console.log(content);
-            _this.counter++;
-            var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums/' + content.id;
-            //console.log('GET', url);
-            this.get(url, function(err, data){
-                try{
-                    data = JSON.parse(data);
-                    data.type = 'album';
-                    Indexer(data);
-                    this.emit(data);
-                }
-                catch(err){
-                    return;
-                }
-            });
-        },
-        output: function(albums){
             this.exit();
         }
     });
