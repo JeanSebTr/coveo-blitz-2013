@@ -10,18 +10,20 @@ var indexer = function(doc) {
 };
 
 
-var indexArtist = function(doc) {
+var indexGenres = function(doc) {
     var docId = doc.id;
-    // Genres
     for (var i = 0; i < doc.genres; i++) {
-        var genre = doc.genres[i];
+        var genre = genres[i];
         if (!index[genre]) {
             index[genre] = [];
         }
         index[genre].push(docId);
     }
+};
 
-    // Origins
+
+var indexOrigins = function(doc) {
+    var docId = doc.id;
     for (var i = 0; i < doc.origin; i++) {
         var origin = doc.origin[i];
         if (!index[origin]) {
@@ -29,14 +31,48 @@ var indexArtist = function(doc) {
         }
         index[origin].push(docId);
     }
+};
+
+
+var indexInstrumentsPlayed = function(doc) {
+    var docId = doc.id;
+    for (var i = 0; i < doc.instruments_played; i++) {
+        var instrument = doc.instruments_played[i];
+        if (!index[instrument]) {
+            index[instrument] = [];
+        }
+        index[instrument].push(docId);
+    }
+};
+
+
+var indexText = function(doc) {
+    var text = doc.text;
+    var tokens = tokenizer(doc.text);
+    console.log(tokens);
+};
+
+
+var indexArtist = function(doc) {
+    var docId = doc.id;
+    indexGenres(doc);
+    indexGenres(doc);
+    indexInstrumentsPlayed(doc);
+    indexText(doc);
+
+    // Origins
     console.log(index);
 };
 
 
+/**
+ * Make sure the character is acceptable.
+ */
 var isGoodChar = function(character) {
     var acceptedChars = 'abcdefghijklmnopqrstuvwxyz0123456789-_';
     return acceptedChars.indexOf(character) !== -1;
 };
+
 
 /**
  * Tokenize a string.
