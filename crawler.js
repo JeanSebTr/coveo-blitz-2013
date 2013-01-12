@@ -81,7 +81,7 @@ function fetchPages(type, from, to, cb) {
 
 function fetchItem(type, id, cb) {
     var url = process.env.DATA_WEB_SERVICE+'/BlitzDataWebService/'+type+'/'+id;
-    console.log('GET', url);
+    //console.log('GET', url);
     request(url, function(err, response, body) {
         if (err)
         cb(err);
