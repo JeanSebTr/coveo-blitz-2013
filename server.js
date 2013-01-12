@@ -4,10 +4,12 @@ var http = require('http');
 var path = require('path');
 var expressHTMLSnapshots = require('express-html-snapshots');
 
+var Crawler = require('./crawler.js');
+
 module.exports = function(){
     var _this = this;
 
-    _this.app = express()
+    _this.app = express();
     _this.expressServer = http.createServer(_this.app);
     
     _this.start = function(callback){
@@ -37,6 +39,16 @@ module.exports = function(){
             }
             else{
                 callback(null, "Express server listening on port " + _this.app.get('port'));
+                var crawl = new Crawler();
+                var start = Date.now();
+                crawl.start(function(err) {
+                    if(err) {
+                        console.error('Error crawling:', err, err.stack);
+                    }
+                    else {
+                        console.log('Crawling done in %d ms', Date.now() - start);
+                    }
+                });
             }
         });
     };

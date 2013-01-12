@@ -22,13 +22,16 @@ var Crawler = function(){
     var _this = this;
     _this.start = function(callback){
         _this.counter = 0;
-        http.get(process.env.START_RUN, function(res) {
+        http.get(process.env.DATA_WEB_SERVICE +
+            '/BlitzDataWebService/evaluationRun/start?runId=' +
+            process.env.RUN_ID, function(res) {
             async.parallel([
                 nodeio.start.bind(nodeio, _this.jobArtists, {}),
                 nodeio.start.bind(nodeio, _this.jobAlbums, {})
             ],
             function(){
-                http.get(process.env.STOP_RUN, function(res) {
+                http.get(process.env.DATA_WEB_SERVICE +
+                    '/BlitzDataWebService/evaluationRun/stop', function(res) {
                     callback(null);
                 }).on('error', function(e) {
                     callback(e);
