@@ -6,11 +6,12 @@ var Indexer = require('./indexer').Indexer;
 
 
 var _input = function(self, url, page, callback){
-    console.log('GET', url);
-    self.get(url + '?page=' + page, function(err, data){
+    console.log('GET', url + '?page=' + page + '&size=100');
+    self.get(url + '?page=' + page + '&size=100', function(err, data){
         try{
             data = JSON.parse(data);
             callback(data.content);
+            console.log('Found %d from %s', data.content.length, url + '?page=' + page);
             if(data.lastPage){
                 callback(false);
             }
@@ -35,12 +36,13 @@ var Crawler = function(){
             '/BlitzDataWebService/evaluationRun/start?runId=' +
             process.env.RUN_ID, function(res) {
             async.parallel([
-                nodeio.start.bind(nodeio, _this.jobArtists, {}),
-                nodeio.start.bind(nodeio, _this.jobAlbums, {})
+                nodeio.start.bind(nodeio, _this.jobArtists, {max:100}),
+                nodeio.start.bind(nodeio, _this.jobAlbums, {max:100})
             ],
             function(){
                 http.get(process.env.DATA_WEB_SERVICE +
                     '/BlitzDataWebService/evaluationRun/stop', function(res) {
+                        console.log('OMG!!!', _this.counter);
                     callback(null);
                 }).on('error', function(e) {
                     callback(e);
@@ -56,10 +58,10 @@ var Crawler = function(){
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists';
             _input(this, url, 0, callback);
         },
-        run: function (content) {
+        run: function (content) {//console.log(content);
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists/' + content.id;
-            console.log('GET', url);
+            //console.log('GET', url);
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
@@ -82,10 +84,10 @@ var Crawler = function(){
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums';
             _input(this, url, 0, callback);
         },
-        run: function (content) {
+        run: function (content) {//console.log(content);
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums/' + content.id;
-            console.log('GET', url);
+            //console.log('GET', url);
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
