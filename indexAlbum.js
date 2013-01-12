@@ -55,9 +55,9 @@ var indexAlbum = function(doc) {
             }
             index.albums[name].artists = doc.artists;
         }
-    }
-    if (doc.release_date) {
-        index.albums[name].releaseDate = doc.release_date[0];
+        if (doc.release_date) {
+            index.albums[name].releaseDate = doc.release_date[0];
+        }
     }
 };
 
