@@ -28,7 +28,7 @@ exports.index = function(query, facets, callback){
             //
         },
         results: [
-            //
+            {name:['Yo'], type: 'album'}
         ]
     });
 };

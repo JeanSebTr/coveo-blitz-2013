@@ -1,14 +1,14 @@
 
 function SearchController($scope, $http){
-    $scope.results = new Array();
+    $scope.data = {};
     $scope.query = null;
     $scope.search = function(){
-        $http.get('/api/search?q=' + $scope.query).
+        $http.get('/search?q=' + $scope.query).
             success(function(data, status){
-                $scope.results = data;
+                $scope.data = data;
             }).
             error(function(data, status){
-                $scope.results = new Array();
+                $scope.data = {};
             });
     };
 };

@@ -2,11 +2,20 @@
     .row
         form.form-search(ng-submit='search()')
             .input-append
-                input.span8.search-query(type='text', ng-model='query', ng-change='search()', placeholder='Search in our amazing collection of ...')
+                input.span8.search-query(type='text', ng-model='query', ng-change='search()', x-webkit-speech, placeholder='Search in our amazing collection of ...')
                 span.add-on.btn(ng-click='search()')
                     i.icon-search
 
     table.table.table-striped
-        tr(ng-repeat='result in results')
-            td {{result.hello}}
-            td {{result.query}}
+        .row(ng-repeat='result in data.results')
+            div(ng-switch="result.type")
+                div(ng-switch-when="album")
+                    .span2 {{result.name[0]}}
+                    .span2(ng-repeat='artist in result.artists') {{artist}}
+                    ol
+                        li(ng-repeat='track in result.track_names')
+                            .span2 {{track}}
+
+                div(ng-switch-when="artist")
+                    .span2 {{result.name[0]}}
+                    .span2(ng-repeat='albums in result.albums') {{artist}}
