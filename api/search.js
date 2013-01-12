@@ -24,24 +24,30 @@ exports.index = function(query, facets, callback) {
         }
         search.facets[k] = fList;
     }
-    //console.log(index.text[qList[0]], qList[0]);
+
+    var allIds = [];
+    for (var i = 0; i < qList.length; i++) {
+        var ids = index.text[qList[i]];
+        for (var j = 0; j < ids.length; j++) {
+            allIds.push({id:ids[j]});
+        }
+    }
+    console.log(allIds, query);
     callback(null, {
         facets: {
             //
         },
-        results: [
-            {name:['Yo'], type: 'album'}
-        ]
+        results: allIds
     });
 };
 
 
 
-var fs = require('fs');
-var tmp = 'artist';
-fs.readFile(tmp + '.txt', function (err, data) {
-    data = JSON.parse(data);
-    data.type = tmp;
-    indexer.Indexer(data);
-    exports.index('music', {}, function() {});
-});
+//var fs = require('fs');
+//var tmp = 'artist';
+//fs.readFile(tmp + '.txt', function (err, data) {
+//    data = JSON.parse(data);
+//    data.type = tmp;
+//    indexer.Indexer(data);
+//    exports.index('music', {}, function() {});
+//});

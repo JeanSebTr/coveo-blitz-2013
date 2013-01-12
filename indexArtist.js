@@ -8,6 +8,7 @@ var indexGenres = function(doc) {
         if (!index.genres[genre]) {
             index.genres[genre] = [];
         }
+        if (index.genres[genre].indexOf('b' + doc.id) !== -1) { continue; }
         index.genres[genre].push('b' + doc.id);
     }
 };
@@ -20,6 +21,7 @@ var indexOrigins = function(doc) {
         if (!index.origins[origin]) {
             index.origins[origin] = [];
         }
+        if (index.origins[origin].indexOf('b' + doc.id) !== -1) { continue; }
         index.origins[origin].push('b' + doc.id);
     }
 };
@@ -32,6 +34,7 @@ var indexInstrumentsPlayed = function(doc) {
         if (!index.instruments[instrument]) {
             index.instruments[instrument] = [];
         }
+        if (index.instruments[instruments].indexOf('b' + doc.id) !== -1) { continue; }
         index.instruments[instrument].push('b' + doc.id);
     }
 };
@@ -46,6 +49,7 @@ var indexText = function(doc) {
         if (!index.text[token]) {
             index.text[token] = [];
         }
+        if (index.text[token].indexOf('b' + doc.id) !== -1) { continue; }
         index.text[token].push('b' + doc.id);
     }
 };
@@ -58,6 +62,7 @@ var indexLabels = function(doc) {
         if (!index.labels[label]) {
             index.labels[label] = [];
         }
+        if (index.labels[label].indexOf('b' + doc.id) !== -1) { continue; }
         index.labels[label].push('b' + doc.id);
     }
 };
@@ -70,6 +75,7 @@ var indexGroupNames = function(doc) {
         if (!index.groupNames[group]) {
             index.groupNames[group] = [];
         }
+        if (index.groupNames[group].indexOf('b' + doc.id) !== -1) { continue; }
         index.groupNames[group].push('b' + doc.id);
     }
 };

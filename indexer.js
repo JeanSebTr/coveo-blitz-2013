@@ -15,9 +15,9 @@ index = {
 
 
 var indexer = function(doc) {
-    if (doc.type == 'artist') {
+    if (doc.type == 'artists') {
         indexArtist.indexArtist(doc);
-    } else if (doc.type == 'album') {
+    } else if (doc.type == 'albums') {
         indexAlbum.indexAlbum(doc);
     }
 };

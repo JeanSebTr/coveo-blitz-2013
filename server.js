@@ -16,6 +16,7 @@ module.exports = function(){
             _this.app.set('port', process.env.PORT || 3000);
             _this.app.set('views', __dirname + '/views');
             _this.app.set('view engine', 'jade');
+            _this.app.set('json spaces', 0);
             _this.app.use(express.favicon());
             _this.app.use(express.logger('dev'));
             _this.app.use(express.bodyParser());

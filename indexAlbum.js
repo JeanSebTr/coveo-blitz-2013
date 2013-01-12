@@ -8,6 +8,7 @@ var indexGenres = function(doc) {
         if (!index.genres[genre]) {
             index.genres[genre] = [];
         }
+        if (index.genres[genre].indexOf('a' + doc.id) !== -1) { continue; }
         index.genres[genre].push('a' + doc.id);
     }
 };
@@ -22,6 +23,7 @@ var indexText = function(doc) {
         if (!index.text[token]) {
             index.text[token] = [];
         }
+        if (index.text[token].indexOf('a' + doc.id) !== -1) { continue; }
         index.text[token].push('a' + doc.id);
     }
 };
@@ -34,6 +36,7 @@ var indexTrackNames = function(doc) {
         if (!index.trackNames[track]) {
             index.trackNames[track] = [];
         }
+        if (index.trackNames[track].indexOf('a' + doc.id) !== -1) { continue; }
         index.trackNames[track].push('a' + doc.id);
     }
 };
@@ -51,7 +54,9 @@ var indexAlbum = function(doc) {
         }
         index.albums[name].artists = doc.artists;
     }
-    index.albums[name].releaseDate = doc.release_date[0];
+    if (doc.release_date) {
+        index.albums[name].releaseDate = doc.release_date[0];
+    }
 };
 
 
