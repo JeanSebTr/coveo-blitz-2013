@@ -41,6 +41,7 @@ var Crawler = function(){
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
+                    data.type = 'artist';
                     Indexer(data);
                     this.emit(data);
                 }
@@ -71,6 +72,7 @@ var Crawler = function(){
             this.get(url, function(err, data){
                 try{
                     data = JSON.parse(data);
+                    data.type = 'album';
                     Indexer(data);
                     this.emit(data);
                 }
