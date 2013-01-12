@@ -1,5 +1,27 @@
-var indexer = function(doc) {
+var index = {};
 
+
+var indexer = function(doc) {
+    console.log(doc);
+    if (doc.type == 'artist') {
+        indexArtist(doc);
+    } else if (doc.type == 'album') {
+        indexAlbum(doc);
+    }
+};
+
+
+var indexArtist = function(doc) {
+    var docId = doc.id;
+    // Genres
+    for (var i = 0; i < doc.genres; i++) {
+        var genre = doc.genres[i];
+        if (!index[genre]) {
+            index[genre] = [];
+        }
+        index[genre].push(docId);
+    }
+    console.log(index);
 };
 
 
