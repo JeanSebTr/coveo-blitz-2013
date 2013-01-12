@@ -1,5 +1,5 @@
 
-module.exports.index = function(query, callback){
+exports.index = function(query, facets, callback){
     var results = [
         {
             hello: "world",
