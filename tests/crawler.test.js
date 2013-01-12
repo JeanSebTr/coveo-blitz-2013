@@ -1,5 +1,4 @@
 
-var nodeio = require('node.io');
 var Crawler = require('../crawler');
 var expect = require('expect.js');
 
@@ -13,6 +12,7 @@ describe('test crawler', function(){
     });
 
     it('should return all the artists from the web service', function(done){
-        nodeio.start(Crawler.jobArtists, {}, done);
+        var crawler = new Crawler();
+        crawler.start(done);
     });
 });
