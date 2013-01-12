@@ -7,5 +7,5 @@ module.exports = function(app){
     app.get('/', WebsiteRoutes.index);
     app.get('/partials/:name', WebsiteRoutes.partials);
 
-    app.get('/api/search', SearchRoutes.index);
+    app.get('/search', SearchRoutes.index);
 };
