@@ -5,15 +5,20 @@ var nodeio = require('node.io');
 var Indexer = require('./indexer').Indexer;
 
 
-var r = function(self, url, page, callback){
+var _input = function(self, url, page, callback){
     self.get(url + '?page=' + page, function(err, data){
-        data = JSON.parse(data);
-        callback(data.content);
-        if(data.lastPage){
-            callback(false);
+        try{
+            data = JSON.parse(data);
+            callback(data.content);
+            if(data.lastPage){
+                callback(false);
+            }
+            else{
+                _input(self, url, page + 1, callback);
+            }
         }
-        else{
-            r(self, url, page + 1, callback);
+        catch(e){
+            callback(false);
         }
     });
 };
@@ -45,14 +50,12 @@ var Crawler = function(){
     _this.jobArtists = new nodeio.Job({
         input: function (start, num, callback) {
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists';
-            r(this, url, 0, callback);
+            _input(this, url, 0, callback);
         },
         run: function (content) {
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/artists/' + content.id;
-            console.log(url);
             this.get(url, function(err, data){
-                console.log('error', err);
                 try{
                     data = JSON.parse(data);
                     data.type = 'artist';
@@ -60,8 +63,6 @@ var Crawler = function(){
                     this.emit(data);
                 }
                 catch(err){
-                    console.log(content);
-                    console.log(data);
                     return;
                 }
             });
@@ -74,13 +75,12 @@ var Crawler = function(){
     _this.jobAlbums = new nodeio.Job({
         input: function (start, num, callback) {
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums';
-            r(this, url, 0, callback);
+            _input(this, url, 0, callback);
         },
         run: function (content) {
             _this.counter++;
             var url = process.env.DATA_WEB_SERVICE + '/BlitzDataWebService/albums/' + content.id;
             this.get(url, function(err, data){
-                console.log('error', err);
                 try{
                     data = JSON.parse(data);
                     data.type = 'album';
@@ -88,8 +88,6 @@ var Crawler = function(){
                     this.emit(data);
                 }
                 catch(err){
-                    console.log(data);
-                    console.log(content);
                     return;
                 }
             });
