@@ -13,7 +13,8 @@
         "stylus": "0.32.x",
         "express-html-snapshots": "0.0.x",
         "async": "0.1.x",
-        "openifyit-commons": "0.0.x"
+        "openifyit-commons": "0.0.x",
+        "node.io": "0.4.x"
     },
     "devDependencies": {
         "nodemon": "0.6.x",
