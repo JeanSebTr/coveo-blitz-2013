@@ -2,7 +2,6 @@ var index = {};
 
 
 var indexer = function(doc) {
-    console.log(doc);
     if (doc.type == 'artist') {
         indexArtist(doc);
     } else if (doc.type == 'album') {
@@ -21,26 +20,57 @@ var indexArtist = function(doc) {
         }
         index[genre].push(docId);
     }
+
+    // Origins
+    for (var i = 0; i < doc.origin; i++) {
+        var origin = doc.origin[i];
+        if (!index[origin]) {
+            index[origin] = [];
+        }
+        index[origin].push(docId);
+    }
     console.log(index);
 };
 
+
+var isGoodChar = function(character) {
+    var acceptedChars = 'abcdefghijklmnopqrstuvwxyz0123456789-_';
+    return acceptedChars.indexOf(character) !== -1;
+};
 
 /**
  * Tokenize a string.
  */
 var tokenizer = function(str) {
     var tokens = [];
-    var currentIdx = 0;
+    var start = 0;
+    var newWord = true;
+    str = str.toLowerCase(str);
     for (var i = 0; i < str.length; i++) {
-        if (str[i] != ' ') {
+        var character = str[i];
+        if (newWord) {
+            if (!isGoodChar(character)) {
+                start = i + 1;
+                continue;
+            }
+        }
+        if (isGoodChar(character)) {
+            newWord = false;
             continue;
         }
-        var word = str.substring(currentIdx, i);
+        var word = str.substring(start, i);
         tokens.push(word);
-        currentIdx = ++i;
+        newWord = true;
+        start = i + 1;
     }
     return tokens;
 };
+
+
+//var test = "This is, if I'm not mistaken, a half-good example of what a less naïve tokenizer (if such a contraption exists) should be able to index! -- For good measure, it should also parse numbers like 1000... We can index python magic methods like __init__, but we will ignore things like -----! Aren't we good?";
+
+
+//console.log(tokenizer(test));
 
 
 module.exports.Indexer = indexer;
