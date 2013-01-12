@@ -50,6 +50,7 @@ function createJob(type) {
                     async.parallel(tasks, cb);
                 }
                 catch(e) {
+                    console.error('Cannot parse:', body);
                     cb(e);
                 }
             }
@@ -97,10 +98,10 @@ var Crawler = function(){
                 createJob('artists'),
                 createJob('albums')
             ],
-            function(){
+            function(err){
                 http.get(process.env.DATA_WEB_SERVICE +
                     '/BlitzDataWebService/evaluationRun/stop', function(res) {
-                    callback(null);
+                    callback(err);
                 }).on('error', function(e) {
                     callback(e);
                 });
