@@ -6,7 +6,8 @@ var request = require('request');
 
 var Indexer = require('./indexer').Indexer;
 
-
+var cpt = 0;
+var qnt = 0;
 
 var _input = function(self, url, page, callback){
     console.log('GET', url + '?page=' + page + '&size=100');
@@ -80,9 +81,15 @@ function fetchPages(type, from, to, cb) {
 }
 
 function fetchItem(type, id, cb) {
+    qnt++;
+    cpt++;
     var url = process.env.DATA_WEB_SERVICE+'/BlitzDataWebService/'+type+'/'+id;
     //console.log('GET', url);
     request(url, function(err, response, body) {
+        cpt--;
+        if(cpt%1000 == 0) {
+            console.log('Progess: %d%%', (qnt - cpt)/qnt);
+        }
         if (err)
         cb(err);
         else {
